@@ -1,8 +1,13 @@
 # Use phusion/baseimage as base image.
-FROM phusion/baseimage:0.9.15
+FROM phusion/baseimage:0.9.18
+
+MAINTAINER Masood Ahmed masood.ahmed09@gmail.com
 
 # Set correct environment variables.
 ENV HOME /root
+
+# Set noninteractive mode for apt-get
+ENV DEBIAN_FRONTEND noninteractive
 
 # Regenerate SSH host keys. baseimage-docker does not contain any, so we
 # have to do that yourself.
@@ -16,13 +21,13 @@ RUN locale-gen en_US.UTF-8
 RUN export LANG=en_US.UTF-8
 
 # Add the required repositories
-RUN apt-add-repository -y ppa:rwky/redis
+RUN apt-add-repository -y ppa:chris-lea/redis-server
 
 # Update & upgrade the repositories
 RUN apt-get update
 RUN apt-get -y --force-yes upgrade
 
-# Install Redis (3.0.3)
+# Install Redis (3.0.7)
 RUN apt-get install -y --force-yes redis-server
 
 # Copy the init files for Redis
